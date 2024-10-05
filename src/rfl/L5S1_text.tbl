@@ -25,11 +25,15 @@ Fr: "(fr)Who's there? Show yourself, hands in the air!"
 
 5  ""
 En: ""
-Gr: ""
-Fr: "" 
+Gr: "(gr)"
+Fr: "(fr)"
 
 6  "L5S1_GRDC_01.wav"
 En: "Sorry, my bad!"
 Gr: "(gr)Sorry, my bad!"
-Fr: "(fr)Sorry, my bad!" 
+Fr: "(fr)Sorry, my bad!"
 
+7  "L5S4_PAA_01.wav"
+En: "You are not authorized for entry to this area. Access denied."
+Gr: "(gr)You are not authorized for entry to this area. Access denied."
+Fr: "(fr)You are not authorized for entry to this area. Access denied."
