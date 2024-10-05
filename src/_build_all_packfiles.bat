@@ -3,6 +3,8 @@
 echo Building all data packfiles...
 
 echo.
+call .\build_rfr_rfl.bat
+echo.
 call .\build_rfr_tbl.bat
 echo.
 call .\build_rfr_tex.bat
