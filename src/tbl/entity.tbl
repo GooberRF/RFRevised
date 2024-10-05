@@ -1,175 +1,6 @@
 //
-// entity.tbl
+// RF Revised - entity.tbl
 //
-// file to specify game entity characteristics
-//
-// note: all sounds are names that point to either individuals sounds, or sound-sets, in the foley.tbl
-//
-//
-// $Name:					  name of entity class
-// $V3D Filename:         disk name of .v3d for entity
-// $Debris Filename:      (OPTIONAL) v3d filename of debris used when entity explodes
-// $LOD Distances:		  (OPTIONAL) { 10 20 30 } How far in meters till the next detail level pops in.
-// $Corpse V3D Filename:  disk name of .v3d used for entity corpse (when death animation doesn't play)
-//	$Corpse Emitter:       emitter that is started when corpse v3d is spawned
-//	$Corpse Emitter Lifetime: how long corpse emitter lasts in seconds (-1 if forever)
-// $Movemode:             what move mode to use for entity class (from movemodes.tbl)
-// $Mass:                 the mass of the object in kg (if <= 0 this will be calulated crudely on create)
-// $Material:             material type for object, one of: "wood", "metal", "rock", "flesh", "liquid"
-// $Flags:                properties of the entity, which include:
-//                        "walk"           -- entity can walk
-//                        "fly"            -- entity can fly
-//                        "climb"          -- entity can climb
-//                        "holds_weapons"  -- entity holds weapons in hands (i.e., weapons not built-in)
-//                        "sentient"       -- entity is aware of surroundings
-//                        "alt_fire"       -- entity uses alt_fire for weapons
-//                        "swim"           -- entity can swim
-//                        "apc"            -- entity is an APC
-//                        "sub"            -- entity is a sub
-//                        "fighter"        -- entity is a fighter
-//                        "crusher"        -- entity can crush human-sized entities (e.g., large vehicles)
-//                        "medic"          -- entity can heal
-//                        "humanoid"       -- entity is vaguely humanoid and should have 3 collision spheres
-//                        "no_collide"     -- entity doesn't collide with anything
-//                        "collide_corpse" -- entity's corpse collides with objects
-//                        "is_camera"      -- entity is security camera
-//                        "custom_corpse"  -- entity corpse uses the "custom" state for an animation (e.g., corpse floating in water)
-//								  "jeep"           -- entity is a jeep
-//                        "ambient"        -- entity exhibits ambient creature behavior
-//                        "envirosuit"     -- entity wears envirosuit
-//								  "slippery"       -- entity is spippery, so sticky weapons will not adhere to entity
-//
-// $Flags2:               properties of the entity that didn't fit in the first 4 bytes, which are:
-//                        "collide_player" -- entity collides with the player
-//                        "collide_entity" -- entity collides with other entities
-//                        "merc"           -- entity is a mercenary
-//                        "mutant"         -- entity is a mutant
-//								  "ignore_fire"    -- entity won't go berserk if it's on fire
-//								  "linked_eye"		 -- entity's eye_pos will be linked to the eye prop point.  useful for autoaim in some circumstances.
-//
-// $Collision Radius:     radius used for bounding sphere collisions (in meters)
-// $Collision Damage Given:     How much damage this gives during a collision.  Total is angle*velocity*collision_damage_given.
-// $Movement Radius:      (OPTIONAL) the radius used for determining whether the entity can use a pathnode.  If not listed, calculates a default. (in meters)
-// $FOV:                  field-of-view (in degrees), used by the AI for sighting targets
-// $Envirosuit:           max envirosuit integrity for this entity
-// $Life:                 max hit points of the entity
-// $Damage Type Factor:	  "damage type (see weapons.tbl)"  <factor>		// (OPTIONAL) damage by this type of weapon is scaled by this factor for this entity type
-// $Max Vel:			     max velocity (in meters per second)
-//    +slow factor:       modifier to max vel for slow gear (not specified means 1.0)
-//    +fast factor:       modifier to max vel for fast gear (not specified means 1.0)
-// $Acceleration:         acceleration (in meters per second per second)
-//	$Max Rot Vel:          maximum rotational velocity (in radians per second)
-//	$Rot Acceleration:     rotational acceleration (in radians per second per second)
-// $Default Primary:      default primary weapon for this entity type
-// $Default Secondary:    default secondary weapon for this entity type
-// $Force Launch Sound:   (OPTIONAL) foley id for weapon launch sound that plays
-// $Primary Muzzle Glare Name:    (OPTIONAL) muzzle effect glare name (from effects.tbl) for the primary weapon (used by entities that have weapons built into models)
-// $Primary Warmup FX:    (OPTIONAL) effect that plays before the primary weapon can be fired
-// $Thruster VFX 1:       (OPTIONAL) VFX filename for thruster n.  These are optional and should correspond 1:1 to
-// ...			  the thruster_n prop points on the model (can be less names than points, tho)
-// $Thruster VFX N:
-// $Corona (Glare) 1:       (OPTIONAL) VFX filename for corona n.  These are optional and should correspond 1:1 to
-// ...			  the corona_n prop points on the model (can be less names than points, tho)
-//                        (OPTIONAL) "headlamp" if this is included, this glare is a headlamp on an entity
-// $Corona (Glare) N:
-// $Helmet V3D Filename:  (OPTIONAL) V3D filename for helmet that can be worn by this entity 
-// $Unholster Delay:      (Optional) Delay in seconds before weapon is in hand while unholstering
-// $Attack Style:         How this entity attacks... choices are:
-//                        "None"         - doesn't attack at all
-//                        "Evasive"      - evasive while attacking (good for small robots)
-//                        "Stand_Ground" - stands ground while attacking
-//                        "Direct"       - goes after target directly, without evasion (good for big, strong robots)
-//
-// $Blind Pursuit Time:   Time in seconds an entity will purue a target when it doesn't have line of sight
-// $Persona:              persona for character
-// $FlySnd:               Looping sound that is attached to the entity
-// $Min FlySnd Volume:    Minimum volume of the fly sound (set to non-zero if you want an ambient sound even when an entity isn't moving)
-//	$Move Sound:           (Optional) Plays when entity moves.  Sound stops playing when the entity isn't moving
-//	$Engine Rev Fwd Sound: (Optional) Plays when an entity starts to move from rest (forward)
-//	$Engine Rev Back Sound:(Optional) Plays when an entity starts to move from rest (reverse)
-// $Footstep Sound:       <material name> <num_sounds>
-//								  <n sounds>
-//								  NOTE: num_sounds should be even.  the first half of the specified sounds used for left foot, the rest right
-// $Climb Footstep Sounds: <climb region type> <num_sounds>
-//								  <n sounds> 
-//								  NOTE: num_sounds should be even.  the first half of the specified sounds used for left foot, the rest right
-//								  (Optional)  Can have one for each material type.  Code will randomly choose among sounds for same material.
-// $LandSnd:              <material name> <sound> (Optional) Can have one for each material type.
-// $Impact Death Sound:	  (Optional)
-// $JumpSnd:              (Optional) played when entity jumps
-// $Headlamp On Sound:    (Optional) played when headlamp is turned on
-// $Headlamp Off Sound:   (Optional) played when headlamp is turned off
-// $Low_Pain Sounds:	     (Optional)
-// $Med_Pain Sounds:	     (Optional)
-// $High_Pain Sounds:	  (Optional)
-// $Squash Sounds:		  (Optional)
-// $Explode Anim:         animation that is played when the entity explodes (name from vclip.tbl)
-// $Explode Anim Radius:  radius of the death explosion animation
-// $Explode Offset:       offset (in local coords) of the explosion from the object center
-//
-// +State:  "stand"
-// +State:  "attack_stand"
-// +State:  "walk"
-// +State:  "attack_walk"
-// +State:  "run"
-// +State:  "attack_run"
-// +State:  "flee_run"
-// +State:  "flail_run"
-// +State:  "crouch"
-// +State:  "freefall"
-// +State:  "on_turret"
-// +State:	"corpse_carry_stand"
-// +State:	"corpse_carry_walk"
-// +State:	"swim_stand"
-// +State:	"swim_walk"
-// +State:	"jeep_drive"
-// +State:	"jeep_gun"
-// +Action: "corpse_drop"
-// +Action: "corpse_carry"
-// +Action: "fire_stand"
-// +Action: "alt_fire_stand"
-// +Action:	"death_generic"
-// +Action: "death_blast_forward"
-// +Action:	"death_blast_backward"
-// +Action: "death_head_forward"
-// +Action: "death_head_backward"
-// +Action: "death_head_neutral"
-// +Action: "death_chest_forward"
-// +Action: "death_chest_backward"
-// +Action: "death_chest_neutral"
-// +Action: "death_leg_left"
-// +Action: "death_leg_right"
-// +Action:	"death_crouch"
-// +Action: "land"
-// +Action: "flinch_stand"
-// +Action: "flinch_attack_stand"
-// +Action:	"flinch_chest"
-// +Action:	"flinch_back"
-// +Action:	"flinch_leg_left"
-// +Action:	"flinch_leg_right"
-// +Action: "idle_to_ready"
-// +Action: "ready_to_idle"
-// +Action: "idle_1"
-// +Action: "idle_2"
-// +Action: "rock_drop"
-// +Action: "rock_pickup"
-// +Action: "death_still_1"
-// +Action: "death_still_2"
-// +Action: "death_still_3"
-// +Action: "reload"
-// +Action: "heal_light_1"
-// +Action: "hit_alarm"
-//
-// $Use:                  Specific use of the entity
-// $Collision Sphere:	<name> <damage factor> <damage factor multi> (optional)
-//   +radius:           <radius override> (optional)
-// $Num Skins:
-// $Skin:
-// $Cockpit VFX:		  (Optional) the cockpit that's drawn when the player is attached to this entity
-//	$Body Temperature(F):	(optional) body temp of entity, or how hot is shows up on infrared
-// $RFE Level1:    - (OPTIONAL) The name of the sub-directory where this item will appear in the editor
-// $RFE Level2:    - (OPTIONAL) The name of the second-level directory for the editor.
-//                 -            Any objects having a Level2 tag, must also have a corresponding Level1 tag.
 
 #Entity Classes
 
@@ -3422,6 +3253,113 @@
 	$Skin: "d" ("MercComndr_Parts01d.tga" "MercComndr_Parts02d.tga" "MercComndr_Parts03d.tga" "MercComndr_Parts02d.tga" "MercComndr_Parts01d.tga" "MercComndr_Parts01d-mip2.tga" "MercComndr_Parts02d-mip2.tga" "MercComndr_Parts03d-mip2.tga" "MercComndr_Parts02d-mip2.tga" "MercComndr_Parts01d-mip3.tga" "MercComndr_Parts02d-mip3.tga" "MercComndr_Parts03d-mip3.tga") 
 	$Skin: "e" ("MercComndr_Parts01e.tga" "MercComndr_Parts02e.tga" "MercComndr_Parts03e.tga" "MercComndr_Parts02e.tga" "MercComndr_Parts01e.tga" "MercComndr_Parts01e-mip2.tga" "MercComndr_Parts02e-mip2.tga" "MercComndr_Parts03e-mip2.tga" "MercComndr_Parts02e-mip2.tga" "MercComndr_Parts01e-mip3.tga" "MercComndr_Parts02e-mip3.tga" "MercComndr_Parts03e-mip3.tga") 
 	$Skin: "f" ("MercComndr_Parts01f.tga" "MercComndr_Parts02f.tga" "MercComndr_Parts03f.tga" "MercComndr_Parts02f.tga" "MercComndr_Parts01f.tga" "MercComndr_Parts01f-mip2.tga" "MercComndr_Parts02f-mip2.tga" "MercComndr_Parts03f-mip2.tga" "MercComndr_Parts02f-mip2.tga" "MercComndr_Parts01f-mip3.tga" "MercComndr_Parts02f-mip3.tga" "MercComndr_Parts03f-mip3.tga") 
+	$Body Temperature(F):	90.0
+	$RFE Level1:				"Ultor"
+	
+	// ----------------------------------------------------------------------------------
+
+    $Name:                  "merc_rail"
+	$V3D Filename:          "merc_rail.vcm"
+	$LOD Distances:			{6 9 35}
+	$Movemode:              "run"
+	$Mass:                  100
+	$Material:              "flesh"
+	$Flags:                 ("walk" "holds_weapons" "sentient" "humanoid" "envirosuit" "slippery") 
+	$Flags2:                ("collide_player" "merc" "ignore_fire")
+	$Collision Radius:      0.85
+	$Collision Damage Given:	10.0
+	$Movement Radius:			0.5
+	$FOV:                   180
+	$Envirosuit:            400
+	$Life:                  250
+	$Damage Type Factor:		"armor piercing bullet"		1.5
+	$Max Vel:				   6.0
+	   +slow factor:        0.3
+	   +fast factor:        1.5
+	$Acceleration:          20.0
+	$Max Rot Vel:           10.0
+	$Rot Acceleration:      10.0
+	$Allowed Weapons:       ("riot shield" "Rail_Gun")
+	$Default Primary:       "Rail_Gun"
+	$Default Secondary:     "riot shield"
+	$Unholster Delay:       .75
+	$Attack Style:          "Direct"
+	$Blind Pursuit Time:    30.0
+	$Persona:               "merc"
+	$FlySnd:                ""
+	$Min FlySnd Volume:     0.6
+	$StartleSnd:           	"Ultor Guard Startle"
+	$Footstep Sound:        "Default Footstep"
+	$Footstep Sound:        "Rock Footstep"
+	$Footstep Sound:        "Metal Footstep"
+	$Footstep Sound:        "Solid Footstep"
+	$LandSnd:               "default land"
+	$Low_Pain Sounds:       "Merc Small Pain"
+	$Med_Pain Sounds:		"Merc Large Pain"
+	$Squash Sounds:			"Character Squash"
+	+State:                 "stand"		        "mrc1_stand.mvf"
+	+State:                 "attack_stand"	        "mrc1_attack_stand.mvf"
+	+State:                 "walk"		        "mrc1_walk.mvf"
+	+State:                 "attack_walk"           "mrc1_attack_walk.mvf"
+	+State:                 "run"                   "mrc1_run.mvf"
+ 	+State:                 "flee_run"              "mrc1_Fleerun.mvf"
+ 	+State:                 "flail_run"             "mrc1_run_flail.mvf"
+	+State:                 "attack_run"            "mrc1_attack_run.mvf"
+	+State:                 "crouch"                "mrc1_crouch.mvf"
+	+State:                 "attack_crouch"         "mrc1_attack_crouch.mvf"
+	+State:                 "cower"                 "mrc1_cower.mvf"
+	+State:                 "swim_stand"            "mcom_swim_stand.mvf"
+	+State:                 "swim_walk"             "mcom_swim_walk.mvf"
+	+State:                 "freefall"              "mrc1_freefall.mvf"
+	+Action:                "sidestep_left"         "mrc1_sidestep_left.mvf"                    ""
+	+Action:                "sidestep_right"        "mrc1_sidestep_right.mvf"                   ""
+	+Action:                "corpse_drop"           "mrc1_corpse_drop.mvf"                      ""
+	+Action:                "corpse_carry"          "mrc1_corpse_carried.mvf"                   ""
+	+Action:                "idle_1"                "mrc1_idle.mvf"                             "Ultor Idle"
+	+Action:                "idle_2"                "mrc1_idle2.mvf"                            "Ultor Idle2"
+	+Action:                "reload"                "mrc1_reload.mvf"                           "Ultor Reload"
+	+Action:                "fire_stand"            "mrc1_attack_fire.mvf"                      ""
+	+Action:                "fire_crouch"           "mrc1_attack_fire.mvf"                      ""
+	+Action:                "death_generic"         "mrc1_death_generic.mvf"                    "Human Death Leg 1"
+	+Action:                "death_blast_forward"   "mrc1_death_blast_fore.mvf"                 "Human Death Blast Forward"
+	+Action:                "death_blast_backward"  "mrc1_death_blast_back.mvf"                 "Human Death Blast Backward"
+	+Action:                "death_head_forward"    "mrc1_death_head_fore.mvf"                  "Human Death Head Forward"
+	+Action:                "death_head_backward"   "mrc1_death_head_back.mvf"                  "Human Death Head Backward 2"
+	+Action:                "death_head_neutral"    "mrc1_death_generic_head.mvf"               "Human Death Generic 4"
+	+Action:                "death_chest_forward"   "mrc1_death_torso_fore.mvf"                 "Human Death Forward"
+    +Action:                "death_chest_backward"  "mrc1_death_torso_back.mvf"                 "Human Death Blast 2"
+	+Action:                "death_chest_neutral"   "mrc1_death_generic_chest.mvf"              "Human Death Leg 1"
+	+Action:                "death_leg_left"        "mrc1_death_leg_L.mvf"                      "Human Death Left 1"
+	+Action:                "death_leg_right"       "mrc1_death_leg_R.mvf"                      "Human Death Right 1"
+	+Action:                "death_crouch"          "mrc1_death_crouch.mvf"                     "Human Death Crouch"
+	+Action:                "flinch_chest"          "mrc1_flinch_chest.mvf"                     ""
+	+Action:                "flinch_back"           "mrc1_flinch_back.mvf"                      ""
+	+Action:                "flinch_leg_left"       "mrc1_flinch_leg_L.mvf"                     ""
+	+Action:                "flinch_leg_right"      "mrc1_flinch_leg_R.mvf"                     ""
+	+Weapon Specific: "Riot Shield"
+	+State:                 "stand"	                "mrc2_stand_Rshield.mvf"
+	+State:                 "attack_stand"          "mrc2_stand_Rshield.mvf"
+	+State:                 "attack_walk"           "mrc2_walk_Rshield.mvf"
+	+State:                 "attack_run"            "mrc2_run_Rshield.mvf"
+	+State:                 "attack_crouch"         "mrc2_crouch_Rshield.mvf"
+	+State:                 "attack_crouch_walk"    "mrc2_crouch_walk_Rshield.mvf"
+	+Action:                "fire_stand"            "mrc2_fire_Rshield.mvf"                        ""
+	+Action:                "fire_crouch"           "mrc2_fire_Rshield.mvf"                        ""
+        +Weapon Specific: "Rail_Gun"
+	+State:                 "attack_walk"           "mrc1_attack_walk_RR.mvf"
+	+State:                 "attack_run"           	"mrc1_attack_run_RR.mvf"
+	+State:                 "walk"                  "mrc1_attack_walk_RR.mvf"
+	+State:                 "run"              	"mrc1_attack_run_RR.mvf"
+	+State:                 "attack_stand"		"mrc1_attack_stand_RR.mvf"
+	+State:                 "attack_crouch"         "mrc1_attack_crouch_RR.mvf"
+	+State:                 "attack_crouch_walk"    "mrc2_crouch_walk_RR.mvf"
+	+Action:                "fire_stand"            "mrc1_fire_reload_RR.mvf"                   ""
+	+Action:                "fire_crouch"           "mrc1_fire_reload_RR_C.mvf"                 ""
+	+Action:                "idle_2"                "mrc1_idle2_RR.mvf"                         "Ultor Idle2"             
+	$Collision Sphere:      "csphere_0" 0.5 0.5
+	$Collision Sphere:      "csphere_1" 1.0 1.0
+	$Collision Sphere:      "csphere_2" 6.0 2.0
+	$Num Skins: 0
 	$Body Temperature(F):	90.0
 	$RFE Level1:				"Ultor"
 
