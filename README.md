@@ -22,4 +22,6 @@ RF Revised requires Dash Faction 1.8.0+
 Build Info
 -----
 - vpp files should never be directly modified
-- All packfiles other than level packfiles are created with build batch files in .\src with file lists from the corresponding directory under .\src
+- All packfiles other than level packfiles are created with build batch files in `.\src` with file lists from the corresponding directory under `.\src`
+- To build packfiles, you must include copies of the following tools in the `.\src\_tools` directory:
+  - `ccrunch.exe`
