@@ -14,7 +14,7 @@ The project aims to keep overall scope managable while satisfying the guiding pr
 
 Usage
 -----
-RF Revised requires Dash Faction 1.8.0+
+RF Revised requires use of the Dash Faction patch. Most functionality will work fine with the latest stable release of Dash Faction (1.8.0), though some elements of RF Revised require features only available in as-of-yet unreleased versions.
 - Create a directory named `rfrevised` in `RedFaction\mods\` for the data in this repo.
 - Launch the Dash Faction launcher and select `rfrevised` from the `Mod` dropdown at the bottom of the window.
 - Click `Launch Game`
